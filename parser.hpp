@@ -39,4 +39,5 @@ public:
 
 	void							parseLine(const std::string line);
 	std::vector<Instruction*>		getInstructions(void) const;
+	void							printInstructions(void) const;
 };

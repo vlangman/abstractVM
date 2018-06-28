@@ -8,7 +8,6 @@ int		main(int argc, char **argv)
 	std::string myLine;
 	Parser		parser;
 	Lexer		lexer;
-	int			parserError = 0;
 	int			count = 1;
 	
 	std::vector<Instruction*>	instruct;
@@ -30,10 +29,13 @@ int		main(int argc, char **argv)
 		while(getline(myFile, myLine)){
 			try{
 				parser.parseLine(myLine);
-			}catch(std::exception &e){
+			}
+			catch(Parser::instructionException &e){
 				std::cout<< "\033[1;31mLine: " << count << " Error: \033[0m";
 				std::cout << e.what() << std::endl;
-				parserError = 1;
+			}
+			catch(Parser::typeException &e){
+				std::cout<< "\033[1;31mLine: " << count << " Error: Unknown types found.\033[0m" << std::endl;
 			}
 			count++;
 		}
@@ -52,18 +54,26 @@ int		main(int argc, char **argv)
 			while(getline(myFile, myLine)){
 				try{
 					parser.parseLine(myLine);
-				} catch(std::exception &e){
+				}
+				catch(Parser::instructionException &e){
 					std::cout<< "\033[1;31mLine: " << count << " Error: \033[0m";
 					std::cout << e.what() << std::endl;
-					parserError = 1;
+				}
+				catch(Parser::typeException &e){
+					std::cout<< "\033[1;31mLine: " << count << " Error: Unknown types found.\033[0m" << std::endl;
 				}
 				count++;
 			}
 
 			instruct = parser.getInstructions();
+			
 			lexer.checkInstructions(instruct);
 			if (lexer.getFlag()){
 				lexer.printErrors();
+				std::cout << "cannot run with errors exiting..." << std::endl;
+			}
+			else{
+				parser.printInstructions();
 			}
 		}
 		else{
