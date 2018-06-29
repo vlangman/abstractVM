@@ -3,16 +3,19 @@
 ; -------------
 push int32(42)
 push int32(33)
+
 add
+
 push float(25);
-push int32 (12.20)
+push int32(12.)
+
 mul
 
-push double(42.42)
-push int32(42)
+push doube(42.42)
+push int32(42);check comments
 
-dump
+dump2
 
-pop
-assert int32(32.42)
+pop 25
+assert int32(32.42) shit head
 exit

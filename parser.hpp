@@ -15,18 +15,17 @@ private:
 
 public:
 
-	class typeException : public std::exception {
-		public:
-			const char * what() const throw(){
-				return ("Invalid Type specified");
-			}
-	};
-
 	class instructionException : public std::exception {
+		private:
+			std::string		errorMessage;
 		public:
-			const char * what() const throw(){
-				return ("Invalid Instruction");
-			}
+			instructionException(void);
+			~instructionException(void);
+			instructionException(const instructionException & _instructon);
+			instructionException(std::string _error);
+			instructionException & operator=(const instructionException & _rhs);
+
+			const char * what() const throw();
 	};
 
 	//canonical start

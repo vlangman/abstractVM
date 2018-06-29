@@ -31,31 +31,34 @@ int		checkType(std::string type, std::string param){
 		"double",
 	};
 	int i = 0;
-	Parser::typeException parseErr;
-	Parser::instructionException paramErr;
+	
 	const char *str = param.c_str();
 	
 	while (i < 5){
 		
 		if (type.compare(types[i]) == 0){
 			if (param.length() < 1){
-				throw (paramErr);
+				Parser::instructionException error("Parameters expected but not specified.");
+				throw (error);
 			}
 			for(int count = 0; str[count]; count++){
 				if (str[count] == '.') {
 					count++;
 					if (!str[count] || !str[count - 2]){
-						throw (paramErr);
+						Parser::instructionException error("Parameter has bad format.");
+						throw (error);
 					}
 				}
 				if (!isdigit(str[count])){
-					throw(paramErr);
+					Parser::instructionException error("Parameters must be of type int,int8,int16,int32,float or double");
+					throw(error);
 				}
 			}
 			return 1;
 		}
 		if (i == 4){
-			throw(parseErr);
+			Parser::instructionException error("Type specified unknown");
+			throw(error);
 		}
 		i++;
 	}
@@ -65,7 +68,7 @@ int		checkType(std::string type, std::string param){
 
 int		checkInstruction(std::string instruction){
 	
-	Parser::instructionException parseErr;
+	
 	const std::string		instructions[] = {
 		"push",
 		"pop",
@@ -95,13 +98,31 @@ int		checkInstruction(std::string instruction){
 			return 1;
 		}
 		if (i == 11){
-			throw(parseErr);
+			Parser::instructionException error("Unknown instruction specifed.");
+			throw(error);
 			return 0;
 		}
 		i++;
 	}
 	return 0;
 }
+
+int		checkExit(std::vector<Instruction*> _instructions){
+	
+	int		exitFound = 0;
+
+	for (auto it : _instructions){
+		if (it->getInstruction().compare("exit") == 0){
+			exitFound = 1;
+			break;
+		}
+	}
+	if (exitFound){
+		return 1;
+	}
+	return 0;
+}
+
 
 void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 	
@@ -117,18 +138,14 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 				try{
 					checkType(it->getType(), it->getParam());
 				}
-				catch(Parser::typeException & e) {
-					this->c_flag = 1;
-					if (it->getType().length() != 0){
-						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getType());
-					} else{
-						this->errors.push_back(error + " parameters expected for function -> \033[0m" + it->getInstruction());
-					}
-					
-				}
 				catch(Parser::instructionException & e) {
 					this->c_flag = 1;
-					this->errors.push_back(error + "Illegal parameters specified -> \033[0m" + it->getParam());
+					if (it->getType().length() != 0){
+						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getType() + " "+ it->getParam());
+					} else{
+						this->errors.push_back(error + " -> \033[0m" + it->getInstruction());
+					}
+					
 				}
 			}
 			//if not assert or push then no type or param should be set
@@ -143,6 +160,8 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 		}
 		count++;
 		
+	}
+	if (!checkExit(_instructions)){
 	}
 	return;
 }

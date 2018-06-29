@@ -24,8 +24,6 @@
 		
 		std::string line = 				temp;
 		Instruction *_instruct = 		new Instruction();
-		typeException					typeErr;
-		instructionException			paramErr;
 
 		//check if line empty space
 		if (line.empty()){
@@ -66,16 +64,19 @@
 				int openB = line.find("(");
 				int closeB = line.find(")");
 				if (openB == -1){
-					throw(paramErr);
+					instructionException error("Expected '(' but none found.");
+					throw(error);
 				}
 				if (closeB == -1){
-					throw(paramErr);
+					instructionException error("Expected ')' but none found.");
+					throw(error);
 				}
 				_instruct->setParam(buf);
 			}
 			if (index == 3){
 				if (buf[0] != ';'){
-					throw(typeErr);
+					instructionException error("Unknown types specified.");
+					throw(error);
 				}
 			}
 			index++;
@@ -96,3 +97,36 @@
 		}
 		return;
 	}
+
+
+	//cononical std exceptions
+
+	Parser::instructionException::instructionException(void){
+		return;
+	}
+
+	Parser::instructionException::~instructionException(void){
+		return;
+	}
+
+	Parser::instructionException::instructionException(const instructionException & _instruction){
+		this->errorMessage = _instruction.what();
+		return;
+	}
+
+	Parser::instructionException&	Parser::instructionException::operator=(const instructionException & _rhs){
+		this->errorMessage = _rhs.what();
+		return *this;
+	}
+	//end canonical
+
+	const char*		Parser::instructionException::what() const throw(){
+		return (this->errorMessage.c_str());
+	}
+
+	Parser::instructionException::instructionException(std::string _error){
+		this->errorMessage = _error;
+		return;
+	}
+
+

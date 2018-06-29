@@ -31,11 +31,8 @@ int		main(int argc, char **argv)
 				parser.parseLine(myLine);
 			}
 			catch(Parser::instructionException &e){
-				std::cout<< "\033[1;31mLine: " << count << " Error: \033[0m";
+				std::cout<< "\033[1;31mERROR: Line: " << count << " \033[0m";
 				std::cout << e.what() << std::endl;
-			}
-			catch(Parser::typeException &e){
-				std::cout<< "\033[1;31mLine: " << count << " Error: Unknown types found.\033[0m" << std::endl;
 			}
 			count++;
 		}
@@ -56,11 +53,8 @@ int		main(int argc, char **argv)
 					parser.parseLine(myLine);
 				}
 				catch(Parser::instructionException &e){
-					std::cout<< "\033[1;31mLine: " << count << " Error: \033[0m";
+					std::cout<< "\033[1;31mERROR: Line: " << count << " \033[0m";
 					std::cout << e.what() << std::endl;
-				}
-				catch(Parser::typeException &e){
-					std::cout<< "\033[1;31mLine: " << count << " Error: Unknown types found.\033[0m" << std::endl;
 				}
 				count++;
 			}
