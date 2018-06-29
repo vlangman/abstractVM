@@ -162,6 +162,8 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 		
 	}
 	if (!checkExit(_instructions)){
+		this->c_flag = 1;
+		this->errors.push_back("Exit command not found.");
 	}
 	return;
 }

@@ -6,16 +6,16 @@ push int32(33)
 
 add
 
-push float25);
-push int32(12.)
+push float (25);
+push int32(12.5)
 
 mul
 
-push doube(42.4a)
+push double(42.42)
 push int32(42);check comments
 
-dump2
+dump
 
-pop 25
-assert int32(32.42) shit head
+pop
+assert int32(32.42)
 exit
