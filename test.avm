@@ -6,12 +6,12 @@ push int32(33)
 
 add
 
-push float(25);
+push float25);
 push int32(12.)
 
 mul
 
-push doube(42.42)
+push doube(42.4a)
 push int32(42);check comments
 
 dump2
