@@ -67,7 +67,9 @@ int		main(int argc, char **argv)
 				std::cout << "cannot run with errors exiting..." << std::endl;
 			}
 			else{
-				parser.printInstructions();
+				if (parser.getFlag() == 0){
+					parser.printInstructions();
+				}
 			}
 		}
 		else{

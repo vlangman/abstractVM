@@ -13,9 +13,8 @@ class Parser {
 
 private:
 	std::vector<Instruction*> instructions;
-
+	int	c_flag;
 public:
-
 	class instructionException : public std::exception {
 		private:
 			std::string		errorMessage;
@@ -40,4 +39,5 @@ public:
 	void							parseLine(const std::string line);
 	std::vector<Instruction*>		getInstructions(void) const;
 	void							printInstructions(void) const;
+	int								getFlag(void) const;
 };

@@ -6,7 +6,7 @@ push int32(33)
 
 add
 
-push float (25);
+push float(42.42);
 push int32(12.5)
 
 mul

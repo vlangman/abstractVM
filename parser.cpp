@@ -1,6 +1,7 @@
 	#include "parser.hpp"
 	
 	Parser::Parser(void){
+		this->c_flag = 0;
 		return;
 	};
 
@@ -12,13 +13,20 @@
 	};
 
 	Parser::Parser(const Parser & _parser){
+		this->c_flag = 0;
 		this->instructions = _parser.getInstructions();
 		*this = _parser;
 	};
 
-	Parser &	Parser::operator=(const Parser & ){
+	Parser &	Parser::operator=(const Parser & _rhs){
+		this->c_flag = _rhs.getFlag();
 		return *this;
 	};
+
+
+	int Parser::getFlag(void) const{
+		return this->c_flag;
+	}
 
 	void		Parser::parseLine(const std::string temp){
 		
@@ -65,10 +73,12 @@
 				int closeB = line.find(")");
 				if (openB == -1){
 					instructionException error("Expected '(' but none found.");
+					this->c_flag = 1;
 					throw(error);
 				}
 				if (closeB == -1){
 					instructionException error("Expected ')' but none found.");
+					this->c_flag = 1;
 					throw(error);
 				}
 				_instruct->setParam(buf);
@@ -76,6 +86,7 @@
 			if (index == 3){
 				if (buf[0] != ';'){
 					instructionException error("Unknown types specified.");
+					this->c_flag = 1;
 					throw(error);
 				}
 			}
@@ -127,5 +138,6 @@
 		this->errorMessage = _error;
 		return;
 	}
+
 
 

@@ -24,9 +24,10 @@ class IOperand {
 
 
 template <typename T>
-class Operand : public IOperand{
+class Operand : public IOperand {
 	private:
 		eOperandType type;
+		T value;
 	public:
 		//start canonical
 		Operand(void);
@@ -34,6 +35,8 @@ class Operand : public IOperand{
 		Operand(const Operand & _operand);
 		Operand &   operator=(const Operand & _rhs);
 		//end canonical
+		Operand(const std::string type);
+	
 
 		int getPrecision( void ) const;                                     // Precision of the type of the instance
 		eOperandType getType( void ) const;                                 // Type of the instance
@@ -42,5 +45,6 @@ class Operand : public IOperand{
 		IOperand const * operator*( IOperand const & rhs ) const;           // Product
 		IOperand const * operator/( IOperand const & rhs ) const;           // Quotient
 		IOperand const * operator%( IOperand const & rhs ) const;           // Modulo
-		std::string const & toString( void ) const = 0;                     // String representation of the instance
+		std::string const & toString( void ) const;                     	// String representation of the instance
+		void	setValue(T &_value);
 };

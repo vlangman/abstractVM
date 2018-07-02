@@ -123,6 +123,9 @@ int		checkExit(std::vector<Instruction*> _instructions){
 	return 0;
 }
 
+int		checkfloating(const std::string &param){
+	return std::regex_match(param, std::regex("[-]?[0-9]+.[0-9]+"));
+}
 
 void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 	
@@ -137,16 +140,22 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 			if (!it->getInstruction().compare("push") || !it->getInstruction().compare("assert")){
 				try{
 					checkType(it->getType(), it->getParam());
+					if (!it->getType().compare("float") || !it->getType().compare("double"))
+					{
+						if (!checkfloating(it->getParam())){
+							this->c_flag = 1;
+							this->errors.push_back("Floating point invalid type -> \033[0m ("+ it->getParam()+")");
+						}
+					}
+					
 				}
 				catch(Parser::instructionException & e) {
 					this->c_flag = 1;
 					if (it->getType().length() != 0){
 						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getType() + "("+ it->getParam()+")");
 					} else{
-
 						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getInstruction());
 					}
-					
 				}
 			}
 			//if not assert or push then no type or param should be set

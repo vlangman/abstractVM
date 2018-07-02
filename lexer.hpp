@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "parser.hpp"
+#include <regex>
 
 class Lexer {
 private:
