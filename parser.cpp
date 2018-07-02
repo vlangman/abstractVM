@@ -91,7 +91,6 @@
 	}
 
 	void						Parser::printInstructions() const {
-
 		for (auto it : instructions){
 			std::cout << it->getInstruction() << " " << it->getType() << " " << it->getParam() << std::endl;
 		}

@@ -141,9 +141,10 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 				catch(Parser::instructionException & e) {
 					this->c_flag = 1;
 					if (it->getType().length() != 0){
-						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getType() + " "+ it->getParam());
+						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getType() + "("+ it->getParam()+")");
 					} else{
-						this->errors.push_back(error + " -> \033[0m" + it->getInstruction());
+
+						this->errors.push_back(error + e.what() + " -> \033[0m" + it->getInstruction());
 					}
 					
 				}
@@ -151,7 +152,7 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 			//if not assert or push then no type or param should be set
 			else if (it->getParam().length() != 0 || it->getType().length() != 0){
 				this->c_flag = 1;
-				this->errors.push_back(error + "Parameters specified not required -> \033[0m" + it->getType() + " " + it->getParam());
+				this->errors.push_back(error + "Parameters specified not required -> \033[0m" + it->getType() + "("+ it->getParam()+")");
 			}
 		}
 		catch(Parser::instructionException &e) {
