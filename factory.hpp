@@ -1,10 +1,8 @@
+#pragma once
 #include <iostream>
-#include "ioperand.hpp"
+#include "operand.hpp"
 
 class Factory {
-    private:
-    
-
     public:
         Factory(void);
         ~Factory(void);

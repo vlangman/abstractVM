@@ -1,4 +1,4 @@
-SRC = main.cpp parser.cpp vm.cpp instruction.cpp lexer.cpp ioperand.cpp
+SRC = main.cpp parser.cpp vm.cpp instruction.cpp lexer.cpp operand.cpp factory.cpp
 OUT = vm
 FLAGS = -Wall -Werror -Wextra -std=c++11
 COMP = g++

@@ -12,7 +12,7 @@ push int32(12.5)
 mul
 
 push double(42.42)
-push int32(42);check comments
+push int32(42)
 
 dump
 

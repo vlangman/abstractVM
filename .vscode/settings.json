@@ -19,6 +19,20 @@
 		"__string": "cpp",
 		"ratio": "cpp",
 		"deque": "cpp",
-		"regex": "cpp"
+		"regex": "cpp",
+		"__functional_base": "cpp",
+		"__functional_base_03": "cpp",
+		"__tuple": "cpp",
+		"chrono": "cpp",
+		"functional": "cpp",
+		"limits": "cpp",
+		"memory": "cpp",
+		"tuple": "cpp",
+		"type_traits": "cpp",
+		"utility": "cpp",
+		"atomic": "cpp",
+		"bitset": "cpp",
+		"locale": "cpp",
+		"system_error": "cpp"
 	}
 }
