@@ -2,6 +2,7 @@
 #include <fstream>
 #include "parser.hpp"
 #include "lexer.hpp"
+#include "vm.hpp"
 
 int		main(int argc, char **argv)
 {
@@ -44,7 +45,6 @@ int		main(int argc, char **argv)
 		return 0;
 	}
 	else{
-		
 		std::ifstream				myFile(argv[1]);
 
 		if (myFile.is_open()){
@@ -68,7 +68,9 @@ int		main(int argc, char **argv)
 			}
 			else{
 				if (parser.getFlag() == 0){
-					parser.printInstructions();
+					// parser.printInstructions();
+					Vm *machine = new Vm(parser.getInstructions());
+					machine->run();
 				}
 			}
 		}

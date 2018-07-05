@@ -5,7 +5,7 @@ template <typename T>
 class Operand : public IOperand {
 	private:
 		eOperandType type;
-		T value;
+		std::string value;
 	public:
 		// //start canonical
 		// Operand(void);
@@ -35,27 +35,9 @@ class Operand : public IOperand {
         return;
     }
 
-    Operand(const std::string intType){
-        if (!intType.compare("int8")){
-            this->type =  eOperandType(0);
-        }
-        else if (!intType.compare("int16")){
-            this->type =  eOperandType(1);
-        }
-        else if (!intType.compare("int32")){
-            this->type =  eOperandType(2);
-        }
-        else if (!intType.compare("float")){
-            this->type =  eOperandType(3);
-        }
-        else if (!intType.compare("double")){
-            this->type =  eOperandType(4);
-        }
-        else {
-            this->type =  eOperandType(0);
-            std::cout << "I SHOULD BE HERE!!!!!" << std::endl;
-            return;
-        }
+    Operand(const std::string _value, eOperandType _type){
+       this->type = _type;
+       this->value = _value;
     }
 
     int getPrecision( void ) const{
@@ -103,14 +85,7 @@ class Operand : public IOperand {
     // }
 
     std::string const & toString( void ) const{
-       const std::string *s = new std::string(std::to_string(this->value));
-
-        return *s;
-    }
-
-    void    setValue(T &_value){
-        this->value = _value;
-        return;
+        return this->value;
     }
 };
 

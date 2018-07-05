@@ -56,11 +56,10 @@ IOperand const * Factory::createOperand( eOperandType type, std::string const & 
 };
         
 IOperand const * Factory::createInt8( std::string const & value ) const{
-    long double longInt = std::stod(value);
-    //NB!!! check for overflows here before cast to type!!!!
-    Operand<int8_t> *newOperand = new Operand<int8_t>("int8");
-    int8_t newInt = static_cast<int8_t>(longInt);
-    newOperand->setValue(newInt);
+    // long double longInt = std::stod(value);
+    // NB!!! check for overflows here before cast to type!!!!
+    // int8_t newInt = static_cast<int8_t>(longInt);
+    Operand<int8_t> *newOperand = new Operand<int8_t>(value, Int8);
     return newOperand;
 };
 
