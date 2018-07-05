@@ -3,11 +3,12 @@
 #include "ioperand.hpp"
 #include <vector>
 #include "instruction.hpp"
+#include "factory.hpp"
 
 class Vm {
     private:
         std::vector<Instruction*> instructionList;
-        std::vector<IOperand*> stack;
+        std::vector<const IOperand*> stack;
     public:
         //canon start
         Vm(void);
@@ -18,5 +19,8 @@ class Vm {
         //canon end
         Vm (std::vector<Instruction*> _instructions);
         void run(void);
+        eOperandType   checkType(const std::string type);
+        void           printStack(void);
+        void            printInstructions() const;
 };
 

@@ -68,9 +68,11 @@ int		main(int argc, char **argv)
 			}
 			else{
 				if (parser.getFlag() == 0){
-					// parser.printInstructions();
+					parser.printInstructions();
 					Vm *machine = new Vm(parser.getInstructions());
-					machine->run();
+					machine->printInstructions();
+					// machine->run();
+					// machine->printStack();
 				}
 			}
 		}

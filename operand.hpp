@@ -50,6 +50,7 @@ class Operand : public IOperand {
 
     Operand(const Operand<T> & _operand){
         this->type = _operand.getType();
+        this->value = _operand.toString();
         return;
     }
 
