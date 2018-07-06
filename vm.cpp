@@ -57,19 +57,39 @@ void       Vm::run(void){
         }
         else{
               //check if [push] or [assert]
-              if (!it->getInstruction().compare("push")){
+            if (!it->getInstruction().compare("push")){
                 this->stack.push_back(factory->createOperand(checkType(it->getType()), it->getParam()));
-              }
-              if (!it->getInstruction().compare("add")){
-                  const IOperand *lhs = this->stack[0];
-                  const IOperand *rhs = this->stack[1];
-                  std::cout << "ADDING -------> " << lhs->toString() << " and " << rhs->toString() << std::endl;
-                  const IOperand *newOp = *lhs + *rhs;
-                  std::cout << "RESULT -------> " << newOp->toString() << std::endl;
-                  this->stack.erase(this->stack.begin() + 0);
-                  this->stack.erase(this->stack.begin() + 0);
-                    this->stack.push_back(newOp);
-              }
+            }
+            else if (!it->getInstruction().compare("add")){
+                const IOperand *lhs = this->stack[0];
+                const IOperand *rhs = this->stack[1];
+                std::cout << "ADD -------> type: " << lhs->getType() << " "<< lhs->toString() << " and type: "<< rhs->getType() << " "<< rhs->toString() << std::endl;
+                const IOperand *newOp = *lhs + *rhs;
+                std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+                this->stack.erase(this->stack.begin() + 0);
+                this->stack.erase(this->stack.begin() + 0);
+                this->stack.push_back(newOp);
+            }
+            else if (!it->getInstruction().compare("sub")){
+                const IOperand *lhs = this->stack[0];
+                const IOperand *rhs = this->stack[1];
+                std::cout << "SUBTRACT -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType() << " " << rhs->toString() << std::endl;
+                const IOperand *newOp = *lhs - *rhs;
+                std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+                this->stack.erase(this->stack.begin() + 0);
+                this->stack.erase(this->stack.begin() + 0);
+                this->stack.push_back(newOp);
+            }
+            else if (!it->getInstruction().compare("mul")){
+                const IOperand *lhs = this->stack[0];
+                const IOperand *rhs = this->stack[1];
+                std::cout << "MULTIPLY -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
+                const IOperand *newOp = *lhs * *rhs;
+                std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+                this->stack.erase(this->stack.begin() + 0);
+                this->stack.erase(this->stack.begin() + 0);
+                this->stack.push_back(newOp);
+            }
         }
     }
     return;

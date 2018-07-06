@@ -44,11 +44,10 @@
     IOperand const *   Operand<T>::operator+(IOperand const & _rhs) const{
         Factory *factory = new Factory();
         int     precision = _rhs.getPrecision();
-        // return *this.toString();
+
         if (this->getPrecision() >= precision){
             T rhs = static_cast<T>(std::stod(_rhs.toString()));
             T lhs = static_cast<T>(std::stod(this->toString()));
-
             T result = lhs + rhs;
             eOperandType _type = static_cast<eOperandType>(this->getPrecision());
             const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -57,7 +56,6 @@
         else if (precision == 1){
             int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
             int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
-
             int16_t result = lhs + rhs;
             eOperandType _type = static_cast<eOperandType>(this->getPrecision());
             const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -66,7 +64,6 @@
         else if (precision == 2){
             int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
             int32_t lhs = static_cast<T>(std::stod(this->toString()));
-
             int32_t result = lhs + rhs;
             eOperandType _type = static_cast<eOperandType>(this->getPrecision());
             const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -75,7 +72,6 @@
         else if(precision == 3){
             float rhs = static_cast<float>(std::stod(_rhs.toString()));
             float lhs = static_cast<T>(std::stod(this->toString()));
-
             float result = lhs + rhs;
             eOperandType _type = static_cast<eOperandType>(this->getPrecision());
             const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -84,7 +80,6 @@
         else {
             double rhs = static_cast<double>(std::stod(_rhs.toString()));
             double lhs = static_cast<double>(std::stod(this->toString()));
-
             double result = lhs + rhs;
             eOperandType _type = static_cast<eOperandType>(this->getPrecision());
             const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -92,17 +87,99 @@
         }
     }
 
-    // template <typename T>
-    // IOperand const *   Operand<T>::operator-(IOperand const & _rhs) const{
-    //     static_cast<void>(_rhs);
-    //     return *this;
-    // }
+    template <typename T>
+    IOperand const *   Operand<T>::operator-(IOperand const & _rhs) const{
+        Factory *factory = new Factory();
+        int     precision = _rhs.getPrecision();
+        
+        if (this->getPrecision() >= precision){
+            T rhs = static_cast<T>(std::stod(_rhs.toString()));
+            T lhs = static_cast<T>(std::stod(this->toString()));
+            T result = lhs - rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else if (precision == 1){
+            int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
+            int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
+            int16_t result = lhs - rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else if (precision == 2){
+            int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
+            int32_t lhs = static_cast<T>(std::stod(this->toString()));
+            int32_t result = lhs - rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else if(precision == 3){
+            float rhs = static_cast<float>(std::stod(_rhs.toString()));
+            float lhs = static_cast<T>(std::stod(this->toString()));
+            float result = lhs - rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else {
+            double rhs = static_cast<double>(std::stod(_rhs.toString()));
+            double lhs = static_cast<double>(std::stod(this->toString()));
+            double result = lhs - rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+    }
 
-    // template <typename T>
-    // IOperand const *   Operand<T>::operator*(IOperand const & _rhs) const{
-    //     static_cast<void>(_rhs);
-    //     return *this;
-    // }
+    template <typename T>
+    IOperand const *   Operand<T>::operator*(IOperand const & _rhs) const{
+        Factory *factory = new Factory();
+        int     precision = _rhs.getPrecision();
+        
+        if (this->getPrecision() >= precision){
+            T rhs = static_cast<T>(std::stod(_rhs.toString()));
+            T lhs = static_cast<T>(std::stod(this->toString()));
+            T result = lhs * rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else if (precision == 1){
+            int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
+            int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
+            int16_t result = lhs * rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else if (precision == 2){
+            int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
+            int32_t lhs = static_cast<T>(std::stod(this->toString()));
+            int32_t result = lhs * rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else if(precision == 3){
+            float rhs = static_cast<float>(std::stod(_rhs.toString()));
+            float lhs = static_cast<T>(std::stod(this->toString()));
+            float result = lhs * rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+        else {
+            double rhs = static_cast<double>(std::stod(_rhs.toString()));
+            double lhs = static_cast<double>(std::stod(this->toString()));
+            double result = lhs * rhs;
+            eOperandType _type = static_cast<eOperandType>(this->getPrecision());
+            const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
+            return newOp;
+        }
+    }
 
   
     // template <typename T>

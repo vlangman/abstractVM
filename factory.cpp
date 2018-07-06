@@ -22,7 +22,7 @@ Factory & Factory::operator=(const Factory &){
 //start factory
 
 IOperand const * Factory::createOperand( eOperandType type, std::string const & value ) const {
-
+    std::cout << "creating a new operand of type " << type << std::endl;
     if (type == 0){
         const IOperand *newOperand = createInt8(value);
         return newOperand;
