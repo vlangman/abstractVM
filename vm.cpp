@@ -29,7 +29,6 @@ Vm::Vm(std::vector<Instruction*> _instructions){
 
 
 eOperandType   Vm::checkType(const std::string type){
-    std::cout << "checking type for " << type << std::endl;
     if (!type.compare("int8")){
         return Int8;
     }
@@ -58,8 +57,7 @@ void       Vm::run(void){
         }
         else{
               //check if [push] or [assert]
-              if (it->getInstruction().compare("push")){
-                std::cout << "pushing to stack " << it->getType() << std::endl;
+              if (!it->getInstruction().compare("push")){
                 this->stack.push_back(factory->createOperand(checkType(it->getType()), it->getParam()));
               }
         }
@@ -74,7 +72,7 @@ void        Vm::printStack(void){
 }
 
 void		Vm::printInstructions() const {
-        std::cout << "FUCKEN _______________" << std::endl;
+        std::cout << "MACHINE INSTRUCTS _______________" << std::endl;
 		for (auto it : this->instructionList){
 			std::cout << it->getInstruction() << " " << it->getType() << " " << it->getParam() << std::endl;
 		}

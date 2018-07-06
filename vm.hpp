@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
-#include "ioperand.hpp"
 #include <vector>
 #include "instruction.hpp"
+#include "operand.hpp"
 #include "factory.hpp"
 
 class Vm {
@@ -21,6 +21,6 @@ class Vm {
         void run(void);
         eOperandType   checkType(const std::string type);
         void           printStack(void);
-        void            printInstructions() const;
+        void           printInstructions() const;
 };
 

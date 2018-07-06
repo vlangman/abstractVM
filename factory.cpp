@@ -22,7 +22,7 @@ Factory & Factory::operator=(const Factory &){
 //start factory
 
 IOperand const * Factory::createOperand( eOperandType type, std::string const & value ) const {
-    
+
     if (type == 0){
         const IOperand *newOperand = createInt8(value);
         return newOperand;
@@ -51,7 +51,7 @@ IOperand const * Factory::createOperand( eOperandType type, std::string const & 
     
 };
         
-IOperand const * Factory::createInt8( std::string const & value ) const{
+IOperand const * Factory::createInt8( const std::string  & value ) const{
     // long double longInt = std::stod(value);
     // NB!!! check for overflows here before cast to type!!!!
     // int8_t newInt = static_cast<int8_t>(longInt);
@@ -59,23 +59,23 @@ IOperand const * Factory::createInt8( std::string const & value ) const{
     return newOperand;
 };
 
-IOperand const * Factory::createInt16( std::string const & value ) const{
+IOperand const * Factory::createInt16( const std::string  & value ) const{
    
     Operand<int16_t> *newOperand = new Operand<int16_t>(value, Int16);
     return newOperand;
 };
 
-IOperand const * Factory::createInt32( std::string const & value ) const{
+IOperand const * Factory::createInt32( const std::string  & value ) const{
     Operand<int32_t> *newOperand = new Operand<int32_t>(value, Int32);
     return newOperand;
 };
 
-IOperand const * Factory::createFloat( std::string const & value ) const{
+IOperand const * Factory::createFloat( const std::string  & value ) const{
     Operand<float> *newOperand = new Operand<float>(value, Float);
     return newOperand;
 };
 
-IOperand const * Factory::createDouble( std::string const & value ) const{
+IOperand const * Factory::createDouble( const std::string & value ) const{
     Operand<double> *newOperand = new Operand<double>(value, Double);
     return newOperand;
 };
