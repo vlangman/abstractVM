@@ -21,82 +21,8 @@ class Operand : public IOperand {
 		IOperand const * operator+( IOperand const & rhs ) const;           // Sum
 		IOperand const * operator-( IOperand const & rhs ) const;           // Difference
 		IOperand const * operator*( IOperand const & rhs ) const;           // Product
-		// IOperand const * operator/( IOperand const & rhs ) const;           // Quotient
-		// IOperand const * operator%( IOperand const & rhs ) const;           // Modulo
+		IOperand const * operator/( IOperand const & rhs ) const;           // Quotient
+		IOperand const * operator%( IOperand const & rhs ) const;           // Modulo
 		std::string const & toString( void ) const;                     	// String representation of the instance
-
-
-
-    // Operand(void){
-    //     return;
-    // }
-
-    // ~Operand(void){
-    //     return;
-    // }
-
-    // Operand(const std::string _value, eOperandType _type){
-    //    this->type = _type;
-    //    this->value = _value;
-    // }
-
-    // int getPrecision( void ) const{
-    //     return this->type;
-    // }
-
-    // eOperandType    getType( void ) const{
-    //     return this->type;
-    // }
-
-    // Operand(const Operand<T> & _operand){
-    //     this->type = _operand.getType();
-    //     this->value = _operand.toString();
-    //     return;
-    // }
-
-    // // Operand<T> &  operator=(const Operand<T> & _rhs){
-    // //     this->type = _rhs.getType();
-    // //     return *this;
-    // // }
-
-    // IOperand const *   operator+(IOperand const & _rhs) const{
-    //     Factory *factory = new Factory();
-    //     // return *this.toString();
-    //     if (this->getPrecision() >= _rhs.getPrecision()){
-    //         T rhs = static_cast<T>(std::stod(_rhs.toString()));
-    //         T lhs = static_cast<T>(std::stod(this->toString()));
-
-    //         T result = lhs + rhs;
-           
-    //         IOperand * newOp = factory->createOperand(this->getPrecision(), result.toString());
-    //         return newOp;
-    //     }
-    //     //  IOperand * newOp = factory->createOperand(this->getPrecision(), result.toString());
-    // }
-
-    // // IOperand const *   operator-(IOperand const & _rhs) const{
-    // //     static_cast<void>(_rhs);
-    // //     return *this;
-    // // }
-
-    // // IOperand const *   operator*(IOperand const & _rhs) const{
-    // //     static_cast<void>(_rhs);
-    // //     return *this;
-    // // }
-
-  
-    // // IOperand const *   operator/(IOperand const & _rhs) const{
-    // //     static_cast<void>(_rhs);
-    // //     return *this;
-    // // }
-
-    // // IOperand const * operator%(IOperand const & _rhs) const{
-    // //     this->type = _rhs.getType();
-    // //     return *this;
-    // // }
-
-    // std::string const & toString( void ) const{
-    //     return this->value;
-    // }
 };
 

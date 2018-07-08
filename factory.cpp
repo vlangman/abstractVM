@@ -22,7 +22,6 @@ Factory & Factory::operator=(const Factory &){
 //start factory
 
 IOperand const * Factory::createOperand( eOperandType type, std::string const & value ) const {
-    std::cout << "creating a new operand of type " << type << std::endl;
     if (type == 0){
         const IOperand *newOperand = createInt8(value);
         return newOperand;
@@ -55,7 +54,7 @@ IOperand const * Factory::createInt8( const std::string  & value ) const{
     // long double longInt = std::stod(value);
     // NB!!! check for overflows here before cast to type!!!!
     // int8_t newInt = static_cast<int8_t>(longInt);
-    Operand<int8_t> *newOperand = new Operand<int8_t>(value, Int8);
+    Operand<signed char> *newOperand = new Operand<signed char>(value, Int8);
     return newOperand;
 };
 

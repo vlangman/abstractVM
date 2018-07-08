@@ -69,11 +69,12 @@ int		main(int argc, char **argv)
 			}
 			else{
 				if (parser.getFlag() == 0){
-					// parser.printInstructions();
+					parser.printInstructions();
+					std::cout << "-------------------------------------------------------" << std::endl;
 					Vm *machine = new Vm(parser.getInstructions());
-					machine->printInstructions();
+					// machine->printInstructions();
 					machine->run();
-					machine->printStack();
+					// machine->printStack();
 				}
 			}
 		}

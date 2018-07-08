@@ -50,8 +50,13 @@ int		checkType(std::string type, std::string param){
 					}
 				}
 				if (!isdigit(str[count])){
-					Parser::instructionException error("Parameters must be of type int,int8,int16,int32,float or double");
-					throw(error);
+					if (str[count] == '-') {
+						count++;
+						if (!str[count] || str[count - 2]){
+							Parser::instructionException error("Parameter has bad format.");
+							throw (error);
+						}
+					}
 				}
 			}
 			return 1;
