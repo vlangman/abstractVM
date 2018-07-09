@@ -4,7 +4,7 @@ push float(10.0)
 
 add
 
-assert int8(20.0)
+assert float(20.0)
 
 dump
 exit

@@ -42,6 +42,14 @@ int		main(int argc, char **argv)
 		lexer.checkInstructions(instruct);
 		if (lexer.getFlag()){
 			lexer.printErrors();
+			std::cout << "cannot run with errors exiting..." << std::endl;
+		}
+		else{
+			if (parser.getFlag() == 0){
+				// parser.printInstructions();
+				Vm *machine = new Vm(parser.getInstructions());
+				machine->run();
+			}
 		}
 		return 0;
 	}
@@ -69,7 +77,7 @@ int		main(int argc, char **argv)
 			}
 			else{
 				if (parser.getFlag() == 0){
-					// parser.printInstructions();
+					parser.printInstructions();
 					Vm *machine = new Vm(parser.getInstructions());
 					machine->run();
 				}

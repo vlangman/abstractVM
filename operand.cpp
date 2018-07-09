@@ -109,7 +109,7 @@
 		}
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
-			int32_t lhs = static_cast<T>(std::stod(this->toString()));
+			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
 			additionOverflow<T>(lhs, rhs);
 			int32_t result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
@@ -118,7 +118,7 @@
 		}
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
-			float lhs = static_cast<T>(std::stod(this->toString()));
+			float lhs = static_cast<float>(std::stod(this->toString()));
 			additionOverflow<T>(lhs, rhs);
 			float result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
@@ -161,7 +161,7 @@
 		}
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
-			int32_t lhs = static_cast<T>(std::stod(this->toString()));
+			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
 			additionOverflow<T>(lhs, rhs* -1);
 			int32_t result = lhs - rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
@@ -170,7 +170,7 @@
 		}
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
-			float lhs = static_cast<T>(std::stod(this->toString()));
+			float lhs = static_cast<float>(std::stod(this->toString()));
 			additionOverflow<T>(lhs, rhs* -1);
 			float result = lhs - rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
@@ -213,7 +213,7 @@
 		}
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
-			int32_t lhs = static_cast<T>(std::stod(this->toString()));
+			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
 			multiplicationOverflow(lhs, rhs);
 			int32_t result = lhs * rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
@@ -222,7 +222,7 @@
 		}
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
-			float lhs = static_cast<T>(std::stod(this->toString()));
+			float lhs = static_cast<float>(std::stod(this->toString()));
 			multiplicationOverflow(lhs, rhs);
 			float result = lhs * rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
@@ -273,7 +273,7 @@
 		}
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
-			int32_t lhs = static_cast<T>(std::stod(this->toString()));
+			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
 			if (rhs == 0){
 				throw(zero);
 				exit(1);
@@ -285,7 +285,7 @@
 		}
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
-			float lhs = static_cast<T>(std::stod(this->toString()));
+			float lhs = static_cast<float>(std::stod(this->toString()));
 			if (rhs == 0){
 				throw(zero);
 				exit(1);
@@ -339,7 +339,7 @@
 		}
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
-			int32_t lhs = static_cast<T>(std::stod(this->toString()));
+			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
 			if (rhs == 0){
 				throw(zero);
 			}
@@ -350,7 +350,7 @@
 		}
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
-			float lhs = static_cast<T>(std::stod(this->toString()));
+			float lhs = static_cast<float>(std::stod(this->toString()));
 			if (rhs == 0){
 				throw(zero);
 			}
