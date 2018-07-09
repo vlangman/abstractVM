@@ -219,13 +219,13 @@ void	Vm::exit(void){
 } 
 
 
-void        Vm::dump(void){
+void	Vm::dump(void){
     for (auto it : this->stack){
         std::cout << "TYPE[" << it->getType() << "] VALUE: " << it->toString() << std::endl;
     }
 }
 
-void		Vm::print() const {
+void	Vm::print() const {
     vmException stackErr("Stack has too few operands");
     vmException typeErr("stack value type not int8");
     if (this->stack.size() < 1){
@@ -233,7 +233,6 @@ void		Vm::print() const {
 	}
 	IOperand const * top = this->stack[0];
 	if (top->getType() != Int8){
-        //underflow is actually a type error
 		throw (typeErr);
 	}
 	char c = std::stoi(top->toString());

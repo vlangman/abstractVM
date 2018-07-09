@@ -82,7 +82,10 @@
 					this->c_flag = 1;
 					throw(error);
 				}
+				std::regex reg("[.,]");
+				// _instruct->setParam(regex_replace(buf, reg, ""));
 				_instruct->setParam(buf);
+
 			}
 			if (index == 3){
 				if (buf[0] != ';'){

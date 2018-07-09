@@ -4,29 +4,52 @@
 #include <limits>
 #include <typeinfo>
 #include <climits>
+#include <regex>
 
+//overflow class instance
+	const char * overflowException::what() const throw(){
+		return "Overflow on operator with specified types";
+	}
+
+	const char * underflowException::what() const throw(){
+		return "Underflow on operator with specified types";
+	}
 
 
 	template <typename T>
-	void additionOverflow(T lhs, T rhs){
-		std::cout << "checking" << std::endl;
-		T res = lhs + rhs;
-		if (lhs < 0 && rhs < 0){
-			if (lhs < 0 && res > rhs){
-				std::cout << "ADDITION UNDERFLOW ERROR " << std::endl;
-			} else if(res < rhs){
-				std::cout << "ADDITION OVERFLOW ERROR " << std::endl;
-			}
+	void additionOverflow(const T a, const T b){
+		overflowException overflow;
+		underflowException underflow;
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
+		T res = a + b;
+		std::cout << a << std::endl;
+		std::cout << b << std::endl;
+		std::cout << res << std::endl;
+		if ((a > 0 && b > 0) && (res < a || res < b)){
+			throw overflow;
 		}
-		// if ((lhs > 0) && (rhs > std::numeric_limits<T>::max() - lhs)){
-		// 	std::cout << "ADDITION OVERFLOW ERROR " << std::endl;
-		// }
-		// if ((lhs < 0) && (rhs < std::numeric_limits<T>::min() - lhs)){
-		// 	std::cout << "ADDITION UNDERFLOW ERROR " << std::endl;
-		// }
-		return;	
-	}
+		if ((a > 0 && b < 0) && res > b){
+			throw underflow;
+		}
+		// if (typeid(T) == typeid(int8_t)){
+		// 	if (res >= SCHAR_MAX){
+		// 		throw(overflow);
+		// 	}
+		// 	if (res <= SCHAR_MIN){	
+		// 		throw(underflow);
+		// 	}
+		// } else {
+		// 	std::cout<< std::numeric_limits<T>::max() <<" : " << res << std::endl;
 
+		// 	if (res >= std::numeric_limits<T>::max()){
+		// 		throw(overflow);
+		// 	}
+		// 	if (res <= std::numeric_limits<T>::min()){	
+		// 		throw(underflow);
+		// 	}
+		// }
+	}
 
 
 
@@ -89,9 +112,9 @@
 		Factory *factory = new Factory();
 		int     precision = _rhs.getPrecision();
 
-		if (this->getPrecision() >= precision){
-			T rhs = static_cast<T>(std::stod(_rhs.toString()));
-			T lhs = static_cast<T>(std::stod(this->toString()));
+		if (this->getPrecision() >= precision){	
+			const T rhs = static_cast<T>(std::stod(_rhs.toString()));
+			const T lhs = static_cast<T>(std::stod(this->toString()));
 			additionOverflow<T>(lhs, rhs);
 			T result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(this->getPrecision());
@@ -99,36 +122,36 @@
 			return newOp;
 		}
 		else if (precision == 1){
-			int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
-			int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs);
+			const int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
+			const int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
+			additionOverflow<int16_t>(lhs, rhs);
 			int16_t result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
 			return newOp;
 		}
 		else if (precision == 2){
-			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
-			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs);
+			const int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
+			const int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
+			additionOverflow<int32_t>(lhs, rhs);
 			int32_t result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
 			return newOp;
 		}
 		else if(precision == 3){
-			float rhs = static_cast<float>(std::stod(_rhs.toString()));
-			float lhs = static_cast<float>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs);
+			const float rhs = static_cast<float>(std::stod(_rhs.toString()));
+			const float lhs = static_cast<float>(std::stod(this->toString()));
+			additionOverflow<float>(lhs, rhs);
 			float result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
 			return newOp;
 		}
 		else {
-			double rhs = static_cast<double>(std::stod(_rhs.toString()));
-			double lhs = static_cast<double>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs);
+			const double rhs = static_cast<double>(std::stod(_rhs.toString()));
+			const double lhs = static_cast<double>(std::stod(this->toString()));
+			additionOverflow<double>(lhs, rhs);
 			double result = lhs + rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -153,7 +176,7 @@
 		else if (precision == 1){
 			int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
 			int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs* -1);
+			additionOverflow<int16_t>(lhs, rhs* -1);
 			int16_t result = lhs - rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -162,7 +185,7 @@
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
 			int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs* -1);
+			additionOverflow<int32_t>(lhs, rhs* -1);
 			int32_t result = lhs - rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -171,7 +194,7 @@
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
 			float lhs = static_cast<float>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs* -1);
+			additionOverflow<float>(lhs, rhs* -1);
 			float result = lhs - rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -180,7 +203,7 @@
 		else {
 			double rhs = static_cast<double>(std::stod(_rhs.toString()));
 			double lhs = static_cast<double>(std::stod(this->toString()));
-			additionOverflow<T>(lhs, rhs* -1);
+			additionOverflow<double>(lhs, rhs* -1);
 			double result = lhs - rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));

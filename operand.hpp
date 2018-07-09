@@ -1,6 +1,16 @@
 #pragma once
 #include "ioperand.hpp"
 
+class overflowException : public std::exception {
+	public:
+		const char * what() const throw();
+};
+
+class underflowException : public std::exception {
+	public:
+		const char * what() const throw();
+};
+
 template <typename T>
 class Operand : public IOperand {
 	private:
@@ -34,6 +44,6 @@ class Operand : public IOperand {
 		IOperand const * operator*( IOperand const & rhs ) const;           // Product
 		IOperand const * operator/( IOperand const & rhs ) const;           // Quotient
 		IOperand const * operator%( IOperand const & rhs ) const;           // Modulo
-		std::string const & toString( void ) const;                     	// String representation of the instance
+		std::string const & toString( void ) const;		                  	// String representation of the instance
 };
 
