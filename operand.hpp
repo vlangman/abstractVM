@@ -7,6 +7,17 @@ class Operand : public IOperand {
 		eOperandType type;
 		std::string value;
 	public:
+
+		class operatorException : public std::exception {
+			public:
+				const char * what() const throw();
+		};
+
+		class zeroException : public std::exception {
+			public:
+				const char * what() const throw();
+		};
+
 		//start canonical
 		Operand(void);
 		~Operand(void);

@@ -5,6 +5,8 @@
 #include <typeinfo>
 #include <climits>
 
+
+
 	template <typename T>
 	void additionOverflow(T lhs, T rhs){
 		std::cout << "checking" << std::endl;
@@ -25,29 +27,7 @@
 		return;	
 	}
 
-// if (typeid(T) != typeid(int8_t)){
 
-// 			if ((rhs < 0) && (lhs > std::numeric_limits<T>::max() - rhs)){
-// 				std::cout << "SUBTRACTION OVERFLOW ERROR " << std::endl;
-// 			} 
-// 			if ((rhs > 0) && (lhs < std::numeric_limits<T>::min() - rhs)){
-// 				std::cout << "SUBTRACTION UNDERFLOW ERROR " << std::endl;
-// 			}
-// 		} else{
-// 			if((rhs < 0) && (lhs > SCHAR_MAX + rhs)){
-// 				std::cout << "SUBTRACTION OVERFLOW ERROR " << std::endl;
-// 			}else if ((rhs > 0) && (lhs < SCHAR_MIN + rhs)){
-// 				std::cout << "SUBTRACTION UNDERFLOW ERROR " << std::endl;
-// 			}
-// 		}
-
-// 	template<class T> void add_flow_check(T a, T b) {
-// 	T sum = a + b;
-// 	if ((a < 0) == (b < 0)) {
-// 		if (a < 0 && sum > b) throw AbstractVM::Underflow();
-// 		else if (sum < b) throw AbstractVM::Overflow();
-// 	}
-// }
 
 
 	template <typename T>
@@ -70,6 +50,7 @@
 
 	template <typename T>
 	Operand<T>::~Operand(void){
+		std::cout << "deconstructor called for operand " << std::endl;
 		return;
 	}
 
@@ -264,12 +245,13 @@
 	IOperand const *   Operand<T>::operator/(IOperand const & _rhs) const{
 		Factory *factory = new Factory();
 		int     precision = _rhs.getPrecision();
-		
+		zeroException zero;
+
 		if (this->getPrecision() >= precision){
 			T rhs = static_cast<T>(std::stod(_rhs.toString()));
 			T lhs = static_cast<T>(std::stod(this->toString()));
 			if (rhs == 0){
-				std::cout << "DIVIDE BY ZERO" << std::endl;
+				throw(zero);
 				exit(1);
 			}
 			T result = lhs / rhs;
@@ -281,7 +263,7 @@
 			int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
 			int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
 			if (rhs == 0){
-				std::cout << "DIVIDE BY ZERO" << std::endl;
+				throw(zero);
 				exit(1);
 			}
 			int16_t result = lhs / rhs;
@@ -293,7 +275,7 @@
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
 			int32_t lhs = static_cast<T>(std::stod(this->toString()));
 			if (rhs == 0){
-				std::cout << "DIVIDE BY ZERO" << std::endl;
+				throw(zero);
 				exit(1);
 			}
 			int32_t result = lhs / rhs;
@@ -305,7 +287,7 @@
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
 			float lhs = static_cast<T>(std::stod(this->toString()));
 			if (rhs == 0){
-				std::cout << "DIVIDE BY ZERO" << std::endl;
+				throw(zero);
 				exit(1);
 			}
 			float result = lhs / rhs;
@@ -317,7 +299,7 @@
 			double rhs = static_cast<double>(std::stod(_rhs.toString()));
 			double lhs = static_cast<double>(std::stod(this->toString()));
 			if (rhs == 0){
-				std::cout << "DIVIDE BY ZERO" << std::endl;
+				throw(zero);
 				exit(1);
 			}
 			double result = lhs / rhs;
@@ -331,10 +313,14 @@
 	IOperand const * Operand<T>::operator%(IOperand const & _rhs) const{
 	    Factory *factory = new Factory();
 		int     precision = _rhs.getPrecision();
+		zeroException zero;
 		
 		if (this->getPrecision() >= precision){
 			T rhs = static_cast<T>(std::stod(_rhs.toString()));
 			T lhs = static_cast<T>(std::stod(this->toString()));
+			if (rhs == 0){
+				throw(zero);
+			}
 			T result = fmod(lhs, rhs);
 			eOperandType _type = static_cast<eOperandType>(this->getPrecision());
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -343,6 +329,9 @@
 		else if (precision == 1){
 			int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
 			int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
+			if (rhs == 0){
+				throw(zero);
+			}
 			int16_t result = lhs % rhs;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -351,6 +340,9 @@
 		else if (precision == 2){
 			int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
 			int32_t lhs = static_cast<T>(std::stod(this->toString()));
+			if (rhs == 0){
+				throw(zero);
+			}
 			int32_t result = fmod(lhs, rhs);;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -359,6 +351,9 @@
 		else if(precision == 3){
 			float rhs = static_cast<float>(std::stod(_rhs.toString()));
 			float lhs = static_cast<T>(std::stod(this->toString()));
+			if (rhs == 0){
+				throw(zero);
+			}
 			float result = fmod(lhs, rhs);
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -367,6 +362,9 @@
 		else {
 			double rhs = static_cast<double>(std::stod(_rhs.toString()));
 			double lhs = static_cast<double>(std::stod(this->toString()));
+			if (rhs == 0){
+				throw(zero);
+			}
 			double result = fmod(lhs, rhs);;
 			eOperandType _type = static_cast<eOperandType>(precision);
 			const IOperand * newOp = factory->createOperand(_type, std::to_string(result));
@@ -406,5 +404,20 @@
 	   this->type = _type;
 	   this->value = _value;
 	}
+
+	template <> const char * Operand<signed char>::operatorException::what() const throw() {return "An error occured during the operation";}
+	template <> const char * Operand<signed char>::zeroException::what() const throw() {return "Param 0 specified illegal operation";}
+
+	template <> const char * Operand<int>::operatorException::what() const throw() {return "An error occured during the operation";}
+	template <> const char * Operand<int>::zeroException::what() const throw() {return "Param 0 specified illegal operation";}
+
+	template <> const char * Operand<short>::operatorException::what() const throw() {return "An error occured during the operation";}
+	template <> const char * Operand<short>::zeroException::what() const throw() {return "Param 0 specified illegal operation";}
+
+	template <> const char * Operand<float>::operatorException::what() const throw() {return "An error occured during the operation";}
+	template <> const char * Operand<float>::zeroException::what() const throw() {return "Param 0 specified illegal operation";}
+
+	template <> const char * Operand<double>::operatorException::what() const throw() {return "An error occured during the operation";}
+	template <> const char * Operand<double>::zeroException::what() const throw() {return "Param 0 specified illegal operation";}
 
 // END SPECIALISATION

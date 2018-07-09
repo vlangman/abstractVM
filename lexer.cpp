@@ -51,8 +51,7 @@ int		checkType(std::string type, std::string param){
 				}
 				if (!isdigit(str[count])){
 					if (str[count] == '-') {
-						count++;
-						if (!str[count] || str[count - 2]){
+						if (count != 0 || !isdigit(str[count + 1])){
 							Parser::instructionException error("Parameter has bad format.");
 							throw (error);
 						}

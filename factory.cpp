@@ -1,4 +1,6 @@
 #include "factory.hpp"
+#include <climits>
+#include <limits>
 
 //start canonical
 Factory::Factory(void){
@@ -22,23 +24,37 @@ Factory & Factory::operator=(const Factory &){
 //start factory
 
 IOperand const * Factory::createOperand( eOperandType type, std::string const & value ) const {
+    factoryOverflow over;
+    factoryUnderflow under;
+    long double temp = stod(value);
+
     if (type == 0){
+        if (temp > SCHAR_MAX){throw(over);} 
+        else if (temp < SCHAR_MIN){throw (under);}
         const IOperand *newOperand = createInt8(value);
         return newOperand;
     }
     else if (type == 1){
+        if (temp > INT_MAX){throw(over);} 
+        else if (temp < INT_MIN){throw (under);}
         const IOperand *newOperand = createInt16(value);
         return newOperand;
     }
     else if (type == 2){
+        if (temp > LONG_MAX){throw(over);} 
+        else if (temp < LONG_MIN){throw (under);}
         const IOperand *newOperand = createInt32(value);
         return newOperand;
     }
     else if (type == 3){
+        if (temp > std::numeric_limits<float>::max()){throw(over);} 
+        else if (temp < std::numeric_limits<float>::min()){throw (under);}
         const IOperand *newOperand = createFloat(value);
         return newOperand;
     }
     else if (type == 4){
+        if (temp > std::numeric_limits<double>::max()){throw(over);} 
+        else if (temp < std::numeric_limits<double>::min()){throw (under);}
         const IOperand *newOperand = createDouble(value);
         return newOperand;
     }
@@ -80,3 +96,12 @@ IOperand const * Factory::createDouble( const std::string & value ) const{
 };
 
 //end factory
+
+
+const char * Factory::factoryOverflow::what() const throw(){
+    return "Overflow on type assign";
+}
+
+const char * Factory::factoryUnderflow::what() const throw(){
+    return "Underflow on type assign";
+}

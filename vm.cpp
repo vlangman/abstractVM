@@ -1,182 +1,237 @@
 #include "vm.hpp"
-//DEFINE EXCEPTIONS
+//exceptions
 
+//cononical std exceptions
 
-const char * Vm::overflowException::what() const throw(){
-	return "OVERFLOW on integer types exit.";
-}
+    Vm::vmException::vmException(void){
+		return;
+	}
 
+	Vm::vmException::~vmException(void){
+		return;
+	}
 
-const char * Vm::underflowException::what() const throw(){
-	return "UNDERFLOW on integer types exit.";
-}
+	Vm::vmException::vmException(const vmException & _instruction){
+		this->errorMessage = _instruction.what();
+		return;
+	}
+
+	Vm::vmException&	Vm::vmException::operator=(const vmException & _rhs){
+		this->errorMessage = _rhs.what();
+		return *this;
+	}
+	//end canonical
+
+	const char*		Vm::vmException::what() const throw(){
+		return (this->errorMessage.c_str());
+	}
+
+	Vm::vmException::vmException(std::string _error){
+		this->errorMessage = _error;
+		return;
+	}
+
 
 //start canonical
 
 Vm::Vm(void){
-	return;
+    return;
 }
 
 
 Vm::~Vm(void){
-	return;
+    return;
 }
 
 Vm::Vm(const Vm & _vm){
-	*this = _vm;
-	return;
+    *this = _vm;
+    return;
 }
 
 Vm & Vm::operator=(const Vm &){
-	return *this;
+    return *this;
 }
 
-
-
-//end canonical
 
 Vm::Vm(std::vector<Instruction*> _instructions){
-	this->instructionList = _instructions;
+    this->instructionList = _instructions;
 }
 
 
-eOperandType   Vm::checkType(const std::string type){
-	if (!type.compare("int8")){
-		return Int8;
-	}
-	else if (!type.compare("int16")){
-		return Int16;
-	}
-	else if (!type.compare("int32")){
-		return Int32;
-	}
-	else if (!type.compare("float")){
-		return Float;
-	}
-	else {
-		return Double;
-	}
+//INSTRUCTION LIST
+
+void    Vm::push(const Instruction * _instruction){
+    Factory *factory = new Factory();
+    try{
+         const IOperand *newOp = factory->createOperand(checkType(_instruction->getType()), _instruction->getParam());
+         this->stack.push_back(newOp);
+    } catch(std::exception & e){
+        vmException error(e.what());
+        throw (error);
+    }
+    delete factory;
+    return;
 }
 
-void       Vm::run(void){
-
-	Factory *factory = new Factory();
-	underflowException underflow;
-	overflowException overflow;
-
-	for (auto it : this->instructionList){
-		//skipping out on comments and spaces
-		if (it->getInstruction().c_str()[0] == '#'){
-			it++;
-		}
-		else{
-			  //check if [push] or [assert]
-			if (!it->getInstruction().compare("push")){
-				this->stack.push_back(factory->createOperand(checkType(it->getType()), it->getParam()));
-			}
-			else if (!it->getInstruction().compare("add")){
-				const IOperand *lhs = this->stack[0];
-				const IOperand *rhs = this->stack[1];
-				std::cout << "ADD -------> type: " << lhs->getType() << " "<< lhs->toString() << " and type: "<< rhs->getType() << " "<< rhs->toString() << std::endl;
-				const IOperand *newOp = *lhs + *rhs;
-				std::cout << "RESULT -------> " << newOp->toString() << std::endl;
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.push_back(newOp);
-			}
-			else if (!it->getInstruction().compare("sub")){
-				const IOperand *lhs = this->stack[0];
-				const IOperand *rhs = this->stack[1];
-				std::cout << "SUBTRACT -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType() << " " << rhs->toString() << std::endl;
-				const IOperand *newOp = *lhs - *rhs;
-				std::cout << "RESULT -------> " << newOp->toString() << std::endl;
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.push_back(newOp);
-			}
-			else if (!it->getInstruction().compare("mul")){
-				const IOperand *lhs = this->stack[0];
-				const IOperand *rhs = this->stack[1];
-				std::cout << "MULTIPLY -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
-				const IOperand *newOp = *lhs * *rhs;
-				std::cout << "RESULT -------> " << newOp->toString() << std::endl;
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.push_back(newOp);
-			}
-			 else if (!it->getInstruction().compare("div")){
-				const IOperand *lhs = this->stack[0];
-				const IOperand *rhs = this->stack[1];
-				std::cout << "DIVIDE -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
-				const IOperand *newOp = *lhs / *rhs;
-				std::cout << "RESULT -------> " << newOp->toString() << std::endl;
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.push_back(newOp);
-			}
-			 else if (!it->getInstruction().compare("mod")){
-				const IOperand *lhs = this->stack[0];
-				const IOperand *rhs = this->stack[1];
-				std::cout << "MOD -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
-				const IOperand *newOp = *lhs % *rhs;
-				std::cout << "RESULT -------> " << newOp->toString() << std::endl;
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.erase(this->stack.begin() + 0);
-				this->stack.push_back(newOp);
-			}
-			else if (!it->getInstruction().compare("dump")){
-				printStack();
-			}
-			else if (!it->getInstruction().compare("print")){
-				printInstructions();
-			}
-			else if (!it->getInstruction().compare("pop")){
-				int size = this->stack.size();
-				if (size < 2){
-					//free da memory tjom
-					std::cout << "stack < 2 during pop exit!" << std::endl;
-
-					exit(1);
-				} else {
-					this->stack.pop_back();
-				}
-			}
-			else if (!it->getInstruction().compare("assert")){
-				const IOperand *top = this->stack[0];
-				std::cout << top->getType() << " : " << checkType(it->getType()) << std::endl;
-				
-				if (top->getType() != checkType(it->getType())){
-					std::cout << "throw assert error1" << std:: endl;
-					exit(1);
-				}
-				if (top->toString().compare(it->getParam())){
-					std::cout << "throw assert error2" << std:: endl;
-					exit(1);
-				}
-			}
-
-		}
-	}
-	return;
+void	Vm::pop(void){
+    vmException stackErr("Stack has too few operands");
+    if (this->stack.size() < 1)
+    {
+        throw (stackErr);
+        return;
+    }
+    delete this->stack[0];
+    this->stack.erase(this->stack.begin() + 0);
+    return;
+}
+		       
+void	Vm::assert(const Instruction * _instruction) const{
+    vmException stackErr("Stack has too few operands");
+    if (this->stack[0]->getType() != checkType(_instruction->getType())){
+        throw (stackErr);
+    }
+    return;
 }
 
-void    Vm::printStack(void){
-	std::cout << "***********DUMP***********" << std::endl;
-	for (auto it : this->stack){
-		std::cout << it->toString() << std::endl;
-	}
-	std::cout << "***********DUMP***********" << std::endl;
+void	Vm::add(void){
+    vmException stackErr("Stack has too few operands");
+    if (this->stack.size() < 2)
+    {
+        throw (stackErr);
+        return;
+    }
+    const IOperand *lhs = this->stack[0];
+    const IOperand *rhs = this->stack[1];
+    std::cout << "ADD -------> type: " << lhs->getType() << " "<< lhs->toString() << " and type: "<< rhs->getType() << " "<< rhs->toString() << std::endl;
+    const IOperand *newOp = *lhs + *rhs;
+    std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+    delete this->stack[0];
+    delete this->stack[1];
+    this->stack.erase(this->stack.begin() + 0);
+    this->stack.erase(this->stack.begin() + 0);
+    this->stack.push_back(newOp);
+    return;
 }
 
-void	Vm::printInstructions() const {
-	if (this->stack.size() < 1){
-		std::cout << "stack too small" << std::endl;
-		exit(1);
+void	Vm::sub(void){
+   
+    vmException stackErr("Stack has too few operands");
+    if (this->stack.size() < 2)
+    {
+        throw (stackErr);
+        return;
+    }
+    const IOperand *lhs = this->stack[0];
+    const IOperand *rhs = this->stack[1];
+    std::cout << "SUBTRACT -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType() << " " << rhs->toString() << std::endl;
+    const IOperand *newOp = *lhs - *rhs;
+    std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+    delete this->stack[0];
+    delete this->stack[1];
+    this->stack.erase(this->stack.begin() + 0);
+    this->stack.erase(this->stack.begin() + 0);
+    this->stack.push_back(newOp);
+    return;
+}
+
+void	Vm::mul(void){
+    vmException stackErr("Stack has too few operands");
+    if (this->stack.size() < 2)
+    {
+        throw (stackErr);
+        return;
+    }
+     const IOperand *lhs = this->stack[0];
+    const IOperand *rhs = this->stack[1];
+    std::cout << "MULTIPLY -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
+    const IOperand *newOp = *lhs * *rhs;
+    std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+    delete this->stack[0];
+    delete this->stack[1];
+    this->stack.erase(this->stack.begin() + 0);
+    this->stack.erase(this->stack.begin() + 0);
+    this->stack.push_back(newOp);
+    return;
+}
+
+void	Vm::div(void){
+    vmException stackErr("Stack has too few operands");
+    if (this->stack.size() < 2)
+    {
+        throw (stackErr);
+        return;
+    }
+    const IOperand *lhs = this->stack[0];
+    const IOperand *rhs = this->stack[1];
+    std::cout << "DIVIDE -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
+    try {
+        const IOperand *newOp = *lhs / *rhs;
+        std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+        delete this->stack[0];
+        delete this->stack[1];
+        this->stack.erase(this->stack.begin() + 0);
+        this->stack.erase(this->stack.begin() + 0);
+        this->stack.push_back(newOp);
+    } catch (std::exception & e){
+        vmException zeroErr(e.what());
+        throw(zeroErr);
+    }
+    return;
+}
+
+void	Vm::mod(void){
+    vmException stackErr("Stack has too few operands");
+    if (this->stack.size() < 2)
+    {
+        throw (stackErr);
+        return;
+    }
+    const IOperand *lhs = this->stack[0];
+    const IOperand *rhs = this->stack[1];
+    std::cout << "MOD -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
+    try {
+        const IOperand *newOp = *lhs % *rhs;
+        std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+        delete this->stack[0];
+        delete this->stack[1];
+        this->stack.erase(this->stack.begin() + 0);
+        this->stack.erase(this->stack.begin() + 0);
+        this->stack.push_back(newOp);
+    } catch (std::exception & e){
+        vmException zeroErr(e.what());
+        throw(zeroErr);
+    }
+    return;
+}
+
+void	Vm::exit(void){
+    std::cout << "EXITING VM..." << std::endl;
+    for (auto it : this->instructionList){
+        delete it;
+    }
+    for (auto it : this->stack){
+        delete it;
+    }
+    return;
+} 
+
+
+void        Vm::dump(void){
+    for (auto it : this->stack){
+        std::cout << "TYPE[" << it->getType() << "] VALUE: " << it->toString() << std::endl;
+    }
+}
+
+void		Vm::print() const {
+    vmException stackErr("Stack has too few operands");
+    vmException typeErr("stack value type not int8");
+    if (this->stack.size() < 1){
+		throw (stackErr);
 	}
 	IOperand const * top = this->stack[0];
 	if (top->getType() != Int8){
-		std::cout << "value not of type int8" << std::endl;
-		exit(1);
+        //underflow is actually a type error
+		throw (typeErr);
 	}
 	char c = std::stoi(top->toString());
 	if (c > 32 && c < 127) { 
@@ -185,5 +240,125 @@ void	Vm::printInstructions() const {
 	else { 
 		std::cout << "Bad_char: " << std::stoi(top->toString()) << std::endl; 
 	}
-	return; 
+
+}
+
+//END INSTRUCTIONS
+
+
+eOperandType   Vm::checkType(const std::string type) const {
+    if (!type.compare("int8")){
+        return Int8;
+    }
+    else if (!type.compare("int16")){
+        return Int16;
+    }
+    else if (!type.compare("int32")){
+        return Int32;
+    }
+    else if (!type.compare("float")){
+        return Float;
+    }
+    else {
+        return Double;
+    }
+}
+
+void    Vm::run(void){
+    for (auto it : this->instructionList){
+        //skipping out on comments and spaces
+        if (it->getInstruction().c_str()[0] == '#'){
+            it++;
+        }
+        else{
+              //check if [push] or [assert]
+            if (!it->getInstruction().compare("push")){
+                try{
+                    push(it);
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+                
+            }
+            else if(!it->getInstruction().compare("pop")){
+                 try {
+                    pop();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if (!it->getInstruction().compare("add")){
+                 try {
+                    add();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if (!it->getInstruction().compare("sub")){
+                try {
+                    sub();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if (!it->getInstruction().compare("mul")){
+                 try {
+                    mul();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if(!it->getInstruction().compare("div")){
+                 try {
+                    div();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if(!it->getInstruction().compare("mod")){
+                 try {
+                    mod();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if(!it->getInstruction().compare("print")){
+                 try {
+                    print();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if(!it->getInstruction().compare("dump")){
+                 try {
+                    dump();
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
+            }
+            else if(!it->getInstruction().compare("exit")){
+                exit();
+                break;
+            }
+        }
+    }
+    return;
 }

@@ -1,8 +1,6 @@
+push int8(12)
 
-push int8(97)
+push float(9999999999999999999999999999999999999999999999999)
 
 dump
-
-print
-
 exit

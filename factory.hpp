@@ -3,6 +3,17 @@
 #include "operand.hpp"
 
 class Factory {
+
+    class factoryOverflow : public std::exception {
+		public:
+			const char * what() const throw();
+	};
+
+    class factoryUnderflow : public std::exception {
+		public:
+			const char * what() const throw();
+	};
+
     public:
         Factory(void);
         ~Factory(void);

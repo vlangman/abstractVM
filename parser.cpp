@@ -1,4 +1,5 @@
 	#include "parser.hpp"
+	#include <regex>
 	
 	Parser::Parser(void){
 		this->c_flag = 0;
