@@ -20,16 +20,14 @@
 	void additionOverflow(const T a, const T b){
 		overflowException overflow;
 		underflowException underflow;
-		std::cout << a << std::endl;
-		std::cout << b << std::endl;
 		T res = a + b;
-		std::cout << a << std::endl;
-		std::cout << b << std::endl;
-		std::cout << res << std::endl;
 		if ((a > 0 && b > 0) && (res < a || res < b)){
 			throw overflow;
 		}
 		if ((a > 0 && b < 0) && res > b){
+			throw underflow;
+		}
+		if ((a < 0 && b < 0) && res > b){
 			throw underflow;
 		}
 		// if (typeid(T) == typeid(int8_t)){

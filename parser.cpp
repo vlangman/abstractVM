@@ -82,8 +82,8 @@
 					this->c_flag = 1;
 					throw(error);
 				}
-				std::regex reg("[.,]");
-				// _instruct->setParam(regex_replace(buf, reg, ""));
+				std::regex reg("[,]");
+				_instruct->setParam(regex_replace(buf, reg, "."));
 				_instruct->setParam(buf);
 
 			}

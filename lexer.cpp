@@ -42,7 +42,12 @@ int		checkType(std::string type, std::string param){
 				throw (error);
 			}
 			for(int count = 0; str[count]; count++){
+				
 				if (str[count] == '.') {
+					if (i != 3 && i != 4){
+						Parser::instructionException error("Floating point type mismatch");
+						throw (error);
+					}
 					count++;
 					if (!str[count] || !str[count - 2]){
 						Parser::instructionException error("Parameter has bad format.");
