@@ -1,6 +1,10 @@
-push int8(12)
+push int8(10)
 
-push float(9999999999999999999999999999999999999999999999999)
+push float(10.0)
+
+add
+
+assert int8(20.0)
 
 dump
 exit

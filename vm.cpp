@@ -86,9 +86,12 @@ void	Vm::pop(void){
 }
 		       
 void	Vm::assert(const Instruction * _instruction) const{
-    vmException stackErr("Stack has too few operands");
+    vmException error("assert check failed!");
     if (this->stack[0]->getType() != checkType(_instruction->getType())){
-        throw (stackErr);
+        throw (error);
+    }
+    if (stod(this->stack[0]->toString()) != stod(_instruction->getParam())){
+        throw(error);
     }
     return;
 }
@@ -281,6 +284,15 @@ void    Vm::run(void){
                     break;
                 }
                 
+            }
+            else if(!it->getInstruction().compare("assert")){
+                try{
+                    assert(it);
+                } catch (vmException & e){
+                    std::cout << "ERROR: " << e.what() << std::endl;
+                    exit();
+                    break;
+                }
             }
             else if(!it->getInstruction().compare("pop")){
                  try {
