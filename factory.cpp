@@ -27,7 +27,6 @@ IOperand const * Factory::createOperand( eOperandType type, std::string const & 
     factoryOverflow over;
     factoryUnderflow under;
     long double temp = stod(value);
-
     if (type == 0){
         if (temp > SCHAR_MAX){throw(over);} 
         else if (temp < SCHAR_MIN){throw (under);}
@@ -48,13 +47,13 @@ IOperand const * Factory::createOperand( eOperandType type, std::string const & 
     }
     else if (type == 3){
         if (temp > std::numeric_limits<float>::max()){throw(over);} 
-        else if (temp < std::numeric_limits<float>::min()){throw (under);}
+        else if (temp < std::numeric_limits<float>::lowest()){throw (under);}
         const IOperand *newOperand = createFloat(value);
         return newOperand;
     }
     else if (type == 4){
         if (temp > std::numeric_limits<double>::max()){throw(over);} 
-        else if (temp < std::numeric_limits<double>::min()){throw (under);}
+        else if (temp < std::numeric_limits<double>::lowest()){throw (under);}
         const IOperand *newOperand = createDouble(value);
         return newOperand;
     }
@@ -67,9 +66,6 @@ IOperand const * Factory::createOperand( eOperandType type, std::string const & 
 };
         
 IOperand const * Factory::createInt8( const std::string  & value ) const{
-    // long double longInt = std::stod(value);
-    // NB!!! check for overflows here before cast to type!!!!
-    // int8_t newInt = static_cast<int8_t>(longInt);
     Operand<signed char> *newOperand = new Operand<signed char>(value, Int8);
     return newOperand;
 };

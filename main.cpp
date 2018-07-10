@@ -46,7 +46,7 @@ int		main(int argc, char **argv)
 		}
 		else{
 			if (parser.getFlag() == 0){
-				// parser.printInstructions();
+				parser.printInstructions();
 				Vm *machine = new Vm(parser.getInstructions());
 				machine->run();
 			}
@@ -69,7 +69,7 @@ int		main(int argc, char **argv)
 			}
 
 			instruct = parser.getInstructions();
-			
+			// parser.printInstructions();
 			lexer.checkInstructions(instruct);
 			if (lexer.getFlag()){
 				lexer.printErrors();
@@ -77,7 +77,7 @@ int		main(int argc, char **argv)
 			}
 			else{
 				if (parser.getFlag() == 0){
-					parser.printInstructions();
+					// parser.printInstructions();
 					Vm *machine = new Vm(parser.getInstructions());
 					machine->run();
 				}

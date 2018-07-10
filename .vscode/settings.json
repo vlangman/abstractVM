@@ -34,6 +34,9 @@
 		"bitset": "cpp",
 		"locale": "cpp",
 		"system_error": "cpp",
-		"iostream": "cpp"
+		"iostream": "cpp",
+		"fstream": "cpp",
+		"sstream": "cpp",
+		"streambuf": "cpp"
 	}
 }

@@ -134,13 +134,11 @@
 	}
 	//end canonical
 
-	const char*		Parser::instructionException::what() const throw(){
+	const char*		Parser::instructionException::what() const throw() {
 		return (this->errorMessage.c_str());
 	}
 
-	Parser::instructionException::instructionException(std::string _error){
+	Parser::instructionException::instructionException(std::string _error) {
 		this->errorMessage = _error;
 		return;
 	}
-
-

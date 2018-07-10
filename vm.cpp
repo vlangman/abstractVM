@@ -64,7 +64,7 @@ void    Vm::push(const Instruction * _instruction){
     Factory *factory = new Factory();
     try{
          const IOperand *newOp = factory->createOperand(checkType(_instruction->getType()), _instruction->getParam());
-         this->stack.push_back(newOp);
+         this->stack.insert(this->stack.begin(), newOp);
     } catch(std::exception & e){
         vmException error(e.what());
         throw (error);
@@ -87,11 +87,13 @@ void	Vm::pop(void){
 		       
 void	Vm::assert(const Instruction * _instruction) const{
     vmException error("assert check failed!");
-    if (this->stack[0]->getType() != checkType(_instruction->getType())){
+    if (this->stack.size() > 0){
+        if (this->stack[0]->getType() != checkType(_instruction->getType())){
         throw (error);
-    }
-    if (stod(this->stack[0]->toString()) != stod(_instruction->getParam())){
-        throw(error);
+        }
+        if (stod(this->stack[0]->toString()) != stod(_instruction->getParam())){
+            throw(error);
+        }
     }
     return;
 }
@@ -105,9 +107,9 @@ void	Vm::add(void){
     }
     const IOperand *lhs = this->stack[0];
     const IOperand *rhs = this->stack[1];
-    std::cout << "ADD -------> type: " << lhs->getType() << " "<< lhs->toString() << " and type: "<< rhs->getType() << " "<< rhs->toString() << std::endl;
+    // std::cout << "ADD -------> type: " << lhs->getType() << " "<< lhs->toString() << " and type: "<< rhs->getType() << " "<< rhs->toString() << std::endl;
     const IOperand *newOp = *lhs + *rhs;
-    std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+    // std::cout << "RESULT -------> " << newOp->toString() << std::endl;
     delete this->stack[0];
     delete this->stack[1];
     this->stack.erase(this->stack.begin() + 0);
@@ -126,9 +128,9 @@ void	Vm::sub(void){
     }
     const IOperand *lhs = this->stack[0];
     const IOperand *rhs = this->stack[1];
-    std::cout << "SUBTRACT -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType() << " " << rhs->toString() << std::endl;
+    // std::cout << "SUBTRACT -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType() << " " << rhs->toString() << std::endl;
     const IOperand *newOp = *lhs - *rhs;
-    std::cout << "RESULT -------> " << newOp->toString() << std::endl;
+    // std::cout << "RESULT -------> " << newOp->toString() << std::endl;
     delete this->stack[0];
     delete this->stack[1];
     this->stack.erase(this->stack.begin() + 0);
@@ -146,9 +148,7 @@ void	Vm::mul(void){
     }
      const IOperand *lhs = this->stack[0];
     const IOperand *rhs = this->stack[1];
-    std::cout << "MULTIPLY -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
     const IOperand *newOp = *lhs * *rhs;
-    std::cout << "RESULT -------> " << newOp->toString() << std::endl;
     delete this->stack[0];
     delete this->stack[1];
     this->stack.erase(this->stack.begin() + 0);
@@ -166,10 +166,9 @@ void	Vm::div(void){
     }
     const IOperand *lhs = this->stack[0];
     const IOperand *rhs = this->stack[1];
-    std::cout << "DIVIDE -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
     try {
+       
         const IOperand *newOp = *lhs / *rhs;
-        std::cout << "RESULT -------> " << newOp->toString() << std::endl;
         delete this->stack[0];
         delete this->stack[1];
         this->stack.erase(this->stack.begin() + 0);
@@ -191,10 +190,9 @@ void	Vm::mod(void){
     }
     const IOperand *lhs = this->stack[0];
     const IOperand *rhs = this->stack[1];
-    std::cout << "MOD -------> type: " << lhs->getType()<< " " << lhs->toString() << " and type: "<< rhs->getType()<< " " << rhs->toString() << std::endl;
     try {
+      
         const IOperand *newOp = *lhs % *rhs;
-        std::cout << "RESULT -------> " << newOp->toString() << std::endl;
         delete this->stack[0];
         delete this->stack[1];
         this->stack.erase(this->stack.begin() + 0);

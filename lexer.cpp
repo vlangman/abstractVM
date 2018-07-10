@@ -61,6 +61,10 @@ int		checkType(std::string type, std::string param){
 							throw (error);
 						}
 					}
+					else{
+						Parser::instructionException error("Parameter values not recognised");
+						throw (error);
+					}
 				}
 			}
 			return 1;
@@ -132,6 +136,10 @@ int		checkExit(std::vector<Instruction*> _instructions){
 	return 0;
 }
 
+int		checkRegular(const std::string &param){
+	return std::regex_match(param, std::regex("[-]?[0-9]+"));
+}
+
 int		checkfloating(const std::string &param){
 	return std::regex_match(param, std::regex("[-]?[0-9]+.[0-9]+"));
 }
@@ -151,10 +159,20 @@ void    Lexer::checkInstructions(std::vector<Instruction*> _instructions){
 					checkType(it->getType(), it->getParam());
 					if (!it->getType().compare("float") || !it->getType().compare("double"))
 					{
-						if (!checkfloating(it->getParam())){
-							this->c_flag = 1;
-							this->errors.push_back("Floating point invalid type -> \033[0m ("+ it->getParam()+")");
+						int dot = it->getParam().find(".");
+						if (dot != -1){
+							if (!checkfloating(it->getParam())){
+								this->c_flag = 1;
+								this->errors.push_back("Floating point invalid type -> \033[0m ("+ it->getParam()+")");
+							}
 						}
+						else{
+							if (!checkRegular(it->getParam())){
+								this->c_flag = 1;
+								this->errors.push_back("Floating point invalid type -> \033[0m ("+ it->getParam()+")");
+							}
+						}
+						
 					}
 					
 				}
