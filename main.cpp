@@ -49,6 +49,7 @@ int		main(int argc, char **argv)
 				parser.printInstructions();
 				Vm *machine = new Vm(parser.getInstructions());
 				machine->run();
+				delete machine;
 			}
 		}
 		return 0;
@@ -80,6 +81,7 @@ int		main(int argc, char **argv)
 					// parser.printInstructions();
 					Vm *machine = new Vm(parser.getInstructions());
 					machine->run();
+					delete machine;
 				}
 			}
 		}

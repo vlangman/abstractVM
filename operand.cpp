@@ -107,6 +107,7 @@
 			return newOp;
 		} catch(std::exception & e){
 			std::cout << "ERROR: " << e.what() << std::endl;
+			delete factory;
 			exit(1);
 		}
 	}
@@ -121,6 +122,7 @@
 			return newOp;
 		} catch(std::exception & e){
 			std::cout << "ERROR: " << e.what() << std::endl;
+			delete factory;
 			exit(1);
 		}
 	}
@@ -140,6 +142,7 @@
 			return newOp;
 		} catch(std::exception & e){
 			std::cout << "ERROR: " << e.what() << std::endl;
+			delete factory;
 			exit(1);
 		}
 	}
@@ -158,6 +161,7 @@
 			return newOp;
 		} catch(std::exception & e){
 			std::cout << "ERROR: " << e.what() << std::endl;
+			delete factory;
 			exit(1);
 		}
 	}
