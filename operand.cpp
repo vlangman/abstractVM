@@ -20,15 +20,32 @@
 	void additionOverflow(const T a, const T b){
 		overflowException overflow;
 		underflowException underflow;
-		T res = a + b;
-		if ((a > 0 && b > 0) && (res < a || res < b)){
-			throw overflow;
+
+		long long temp_a = static_cast<long long>(a);
+		long long temp_b = static_cast<long long>(b);
+		std::cout << "A-value: " << a << " B-value: " << b << std::endl;
+		long long temp_res = temp_a + temp_b;
+		std::cout << "ADDITION LONG DOUBLE VALUE: " << temp_res << std::endl;
+
+		if (typeid(T) == typeid(int8_t)){
+			long double max = static_cast<long double>(SCHAR_MAX);
+			long double min = static_cast<long double>(SCHAR_MIN);
+			if (temp_res < min){
+				throw (underflow);
+			}
+			if (temp_res > max){
+				throw (overflow);
+			}
 		}
-		if ((a > 0 && b < 0) && res > a){
-			throw underflow;
-		}
-		if ((a < 0 && b < 0) && res > b){
-			throw underflow;
+		else{
+			long double max = static_cast<long double>(std::numeric_limits<T>::max());
+			long double min = static_cast<long double>(std::numeric_limits<T>::lowest());
+			if (temp_res < min){
+				throw (underflow);
+			}
+			if (temp_res > max){
+				throw (overflow);
+			}
 		}
 	}
 
@@ -38,19 +55,37 @@
 	void multiplicationOverflow(const T & a,const T & b){
 		overflowException overflow;
 		underflowException underflow;
-		std::cout << "checking multi " << std::endl;
-		T res = a * b;
-		if (a < 0 && b < 0 && (res < -a || res < -b)){
-			throw(overflow);
+		long double temp_a = static_cast<long double>(a);
+		long double temp_b = static_cast<long double>(b);
+		std::cout << "A-value: " << a << " B-value: " << b << std::endl;
+		long double temp_res = temp_a * temp_b;
+		std::cout << "MULTIPLY LONG DOUBLE VALUE: " << temp_res << std::endl;
+
+		if (typeid(T) == typeid(int8_t)){
+			std::cout << " int8 " << std::endl;
+			long double max = static_cast<long double>(SCHAR_MAX);
+			long double min = static_cast<long double>(SCHAR_MIN);
+			if (temp_res < min){
+				std::cout << "TYPE less than its min val of: " << min << std::endl;
+				throw (underflow);
+			}
+			if (temp_res > max){
+				std::cout << "TYPE more than its max val of: " << max << std::endl;
+				throw (overflow);
+			}
 		}
-		if (a > 0 && b > 1 && (res < a || res < b)){
-			throw(overflow);
-		}
-		if (a < 0 && b > 0 && res > a){
-			throw(underflow);
-		}
-		if (a > 0 && b < 0 && res > b){
-			throw(underflow);
+		else{
+			long double max = static_cast<long double>(std::numeric_limits<T>::max());
+			long double min = static_cast<long double>(std::numeric_limits<T>::lowest());
+
+			if (temp_res < min){
+				std::cout << "TYPE less than its min val of: " << min << std::endl;
+				throw (underflow);
+			}
+			if (temp_res > max){
+				std::cout << "TYPE more than its max val of: " << max << std::endl;
+				throw (overflow);
+			}
 		}
 		return;
 	}
