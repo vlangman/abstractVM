@@ -1,11 +1,16 @@
-push double(10)
-push double(10)
+push int8(127)
+push int8(-127)
 
-mul
+add
+
 dump
+pop
 
-push double(10)
+push int8(20)
+push int8(0)
+
 div
+
 dump
 
 exit

@@ -23,9 +23,7 @@
 
 		long long temp_a = static_cast<long long>(a);
 		long long temp_b = static_cast<long long>(b);
-		std::cout << "A-value: " << a << " B-value: " << b << std::endl;
 		long long temp_res = temp_a + temp_b;
-		std::cout << "ADDITION LONG DOUBLE VALUE: " << temp_res << std::endl;
 
 		if (typeid(T) == typeid(int8_t)){
 			long double max = static_cast<long double>(SCHAR_MAX);
@@ -57,9 +55,7 @@
 		underflowException underflow;
 		long double temp_a = static_cast<long double>(a);
 		long double temp_b = static_cast<long double>(b);
-		std::cout << "A-value: " << a << " B-value: " << b << std::endl;
 		long double temp_res = temp_a * temp_b;
-		std::cout << "MULTIPLY LONG DOUBLE VALUE: " << temp_res << std::endl;
 
 		if (typeid(T) == typeid(int8_t)){
 			std::cout << " int8 " << std::endl;
@@ -147,6 +143,21 @@
 		}
 	}
 	template <typename T>
+	IOperand const *	subtract(const T a, const T b, eOperandType precision){
+		Factory *factory = new Factory();
+		try {
+			additionOverflow<T>(a * -1, b);
+			T result = b - a;
+			const IOperand * newOp = factory->createOperand(precision, std::to_string(result));
+			delete factory;
+			return newOp;
+		} catch(std::exception & e){
+			std::cout << "ERROR: " << e.what() << std::endl;
+			delete factory;
+			exit(1);
+		}
+	}
+	template <typename T>
 	IOperand const *	multiply(const T a, const T b, eOperandType precision){
 		Factory *factory = new Factory();
 		try {
@@ -167,11 +178,11 @@
 		underflowException zero;
 
 		try {
-			if (b == 0){
+			if (a == 0){
 				std::cout << "ERROR: Divide or Mod by 0" << std::endl;
 				exit(1);
 			}
-			T result = a / b;
+			T result = b / a;
 			const IOperand * newOp = factory->createOperand(precision, std::to_string(result));
 			delete factory;
 			return newOp;
@@ -245,27 +256,27 @@
 			const T rhs = static_cast<T>(std::stod(_rhs.toString()));
 			const T lhs = static_cast<T>(std::stod(this->toString()));
 			myType = static_cast<eOperandType>(this->getPrecision());
-			return add<T>(lhs, rhs * -1, myType);
+			return subtract<T>(lhs, rhs, myType);
 		}
 		else if (precision == 1){
 			const int16_t rhs = static_cast<int16_t>(std::stod(_rhs.toString()));
 			const int16_t lhs = static_cast<int16_t>(std::stod(this->toString()));
-			return add<int16_t>(lhs, rhs * -1, myType);
+			return subtract<int16_t>(lhs, rhs, myType);
 		}
 		else if (precision == 2){
 			const int32_t rhs = static_cast<int32_t>(std::stod(_rhs.toString()));
 			const int32_t lhs = static_cast<int32_t>(std::stod(this->toString()));
-			return add<int16_t>(lhs, rhs * -1, myType);
+			return subtract<int16_t>(lhs, rhs, myType);
 		}
 		else if(precision == 3){
 			const float rhs = static_cast<float>(std::stod(_rhs.toString()));
 			const float lhs = static_cast<float>(std::stod(this->toString()));
-			return add<float>(lhs, rhs * -1, myType);
+			return subtract<float>(lhs, rhs, myType);
 		}
 		else {
 			const double rhs = static_cast<double>(std::stod(_rhs.toString()));
 			const double lhs = static_cast<double>(std::stod(this->toString()));
-			return add<double>(lhs, rhs * -1, myType);
+			return subtract<double>(lhs, rhs, myType);
 		}
 	}
 
